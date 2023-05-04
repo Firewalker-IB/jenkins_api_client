@@ -72,7 +72,8 @@ module JenkinsApi
       "ca_file",
       "follow_redirects",
       "identity_file",
-      "cookies"
+      "cookies",
+      "verified_mode"
     ].freeze
 
     # Initialize a Client object with Jenkins CI server credentials
@@ -361,8 +362,8 @@ module JenkinsApi
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       elsif @ssl
         http.use_ssl = true
-
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        
+        http.verify_mode = @verify_mode || OpenSSL::SSL::VERIFY_PEER
         http.ca_file = @ca_file if @ca_file
       end
       http.open_timeout = @http_open_timeout
